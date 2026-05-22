@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+server/venv/
+.env
+*.egg-info/
+
+# 模型文件（运行时自动下载）
+*.pth
+*.pt
+*.bin
+
+# Photoshop 文件
+*.psd
+*.psb
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/

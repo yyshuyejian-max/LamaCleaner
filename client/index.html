@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LaMa Cleaner v1.1.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="panel">
+        <header class="header">
+            <div class="title-row">
+                <h1>LaMa Cleaner <span class="version-badge">v1.1.0</span></h1>
+                <button id="btnHelp" class="icon-btn" title="使用帮助">?</button>
+            </div>
+            <p class="subtitle">AI 清除 logo / 水印 / 杂物</p>
+        </header>
+
+        <div id="status" class="status pending">检查服务中...</div>
+
+        <button id="btnStart" class="btn btn-secondary">启动后端服务</button>
+
+        <!-- 模式切换 -->
+        <div class="mode-switcher">
+            <button id="modeSelection" class="mode-btn active">选区模式</button>
+            <button id="modeBrush" class="mode-btn">涂抹蒙版</button>
+        </div>
+
+        <!-- 涂抹蒙版模式面板 -->
+        <div id="brushPane" class="hidden">
+            <button id="btnCreateMask" class="btn btn-secondary">
+                <span class="btn-icon">✎</span>
+                <span>创建蒙版图层</span>
+            </button>
+            <p class="brush-hint">
+                图层 <b>LaMa_Mask</b> 已自动创建并选中，前景色已设为红色。<br>
+                用任意画笔涂抹要清除的区域，颜色不限。
+            </p>
+        </div>
+
+        <!-- 选区扩展（两种模式共用） -->
+        <div class="settings">
+            <div class="setting-row">
+                <label for="expand">边缘扩展</label>
+                <div class="input-wrap">
+                    <input type="number" id="expand" value="3" min="0" max="50">
+                    <span class="unit">px</span>
+                </div>
+            </div>
+            <p class="setting-hint" id="expandHint">数值越大边缘越平滑，3~5 通常足够</p>
+        </div>
+
+        <button id="btnClean" class="btn btn-primary" disabled>
+            <span class="btn-icon">✦</span>
+            <span id="btnCleanLabel">清除选区内容</span>
+        </button>
+
+        <div class="steps" id="stepsBox">
+            <div class="step-title" id="stepsTitle">使用步骤</div>
+            <ol id="stepsList">
+                <li>启动后端服务（首次需下载模型）</li>
+                <li>用任意选区工具圈住要清除的区域</li>
+                <li>点「清除选区内容」</li>
+                <li>结果作为新图层贴回</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Loading 遮罩 -->
+    <div id="overlay" class="overlay hidden">
+        <div class="overlay-card">
+            <div class="spinner"></div>
+            <div id="overlayText" class="overlay-text">处理中...</div>
+            <div id="overlaySubtext" class="overlay-subtext"></div>
+        </div>
+    </div>
+
+    <!-- 帮助弹窗 -->
+    <div id="helpModal" class="modal hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>使用帮助</h2>
+                <button id="btnCloseHelp" class="icon-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>选区模式</h3>
+                <ol>
+                    <li>启动后端服务，等状态变绿</li>
+                    <li>用套索 / 魔棒 / 快速选择圈住要清除的内容</li>
+                    <li>点「清除选区内容」</li>
+                    <li>结果作为新图层贴在最上方</li>
+                </ol>
+
+                <h3>涂抹蒙版模式</h3>
+                <ol>
+                    <li>切换到「涂抹蒙版」选项卡</li>
+                    <li>点「创建蒙版图层」，PS 自动新建 <code>LaMa_Mask</code> 图层</li>
+                    <li>用画笔随意涂抹要清除的区域（颜色不限）</li>
+                    <li>点「清除涂抹区域」，处理完蒙版图层自动隐藏</li>
+                </ol>
+
+                <h3>小技巧</h3>
+                <ul>
+                    <li>「边缘扩展」3~10 像素能消除残影</li>
+                    <li>涂抹模式支持软画笔，边缘自然</li>
+                    <li>不满意按 <code>Ctrl+Z</code> 撤销，原图不受影响</li>
+                    <li>大图处理慢正常，CPU 模式 4K 图约 30s</li>
+                </ul>
+
+                <h3>关于版本</h3>
+                <ul>
+                    <li>当前版本：<b>v1.1.0</b></li>
+                    <li>项目地址：<a href="https://github.com/patugosavi/LamaCleaner" target="_blank">GitHub (patugosavi)</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="CSInterface.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
